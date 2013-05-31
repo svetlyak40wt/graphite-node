@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo "local.ping 1 `date +%s`" | nc localhost 2003;

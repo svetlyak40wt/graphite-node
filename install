@@ -1,0 +1,59 @@
+#!/bin/bash
+
+set -e
+set -x
+
+#mkdir graphite
+#cd graphite
+sudo apt-get install python-virtualenv
+sudo apt-get install git g++ python-dev
+
+virtualenv env
+virtualenv env --system-site-packages
+source env/bin/activate
+
+mkdir src
+mkdir -p data/storage/log/webapp/
+mkdir -p data/storage/ceres/
+
+cd src
+pip install -U pip
+pip install -U twisted pytz 'pyparsing<2.0.0'
+pip install -U gunicorn django django-tagging
+
+git clone https://github.com/graphite-project/graphite-web.git
+git clone https://github.com/graphite-project/carbon.git
+git clone https://github.com/graphite-project/whisper.git
+git clone https://github.com/graphite-project/ceres.git
+
+cd ceres/
+pip install -e .
+
+cd ../whisper/
+pip install -e .
+#python setup.py install --prefix=`pwd`/../../env
+
+cd ../carbon
+rm -f setup.cfg
+pip install -e .
+#python setup.py install --prefix=`pwd`/../../env --install-lib=`pwd`/../../env/lib/python2.7/site-packages --install-data=`pwd`/../../data
+
+cd ../graphite-web
+rm -f setup.cfg
+pip install -e .
+#python setup.py install --prefix=`pwd`/../../env --install-lib=`pwd`/../../env/lib/python2.7/site-packages --install-data=`pwd`/../../data
+
+exit 0
+cd ../..
+
+mkdir -p data/conf
+cp src/carbon/conf/carbon.conf.example data/conf/carbon.conf
+cp src/carbon/conf/storage-schemas.conf.example data/conf/storage-schemas.conf
+carbon-cache.py --config data/conf/carbon.conf start
+
+if [ ! grep -q SECRET_KEY graphite-node/graphite_node/local_settings.py ]; then
+    echo "SECRET_KEY = '$(date | md5sum | cut -f 1 -d ' ')'" >> graphite-node/graphite_node/local_settings.py
+fi
+
+django-admin.py syncdb --settings=graphite_node.settings
+gunicorn_django -b 127.0.0.1:8080 --settings graphite_node.settings
