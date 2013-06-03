@@ -1,6 +1,8 @@
-Django
-Twisted
-django-tagging
-gunicorn
-pyparsing<2.0.0
-pytz
+Django==1.5.1
+Twisted==13.0.0
+distribute==0.6.45
+django-tagging==0.3.1
+gunicorn==0.17.4
+pyparsing==1.5.7
+pytz==2013b
+zope.interface==4.0.5

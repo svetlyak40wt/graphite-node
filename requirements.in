@@ -1,0 +1,6 @@
+Django
+Twisted
+django-tagging
+gunicorn
+pyparsing<2.0.0
+pytz

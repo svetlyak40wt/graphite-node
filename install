@@ -16,6 +16,7 @@ mkdir -p data/storage/log/webapp/
 mkdir -p data/storage/ceres/
 
 pip install -U pip
+pip install -e 'git+git://github.com/nvie/pip-tools.git@future#egg=pip-tools'
 pip install -U -r requirements.txt
 
 cd src
