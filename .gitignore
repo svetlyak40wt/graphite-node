@@ -1,2 +1,9 @@
 *.pyc
 .*.swp
+.#*
+*.egg-info
+local_settings.py
+/env/
+/src/
+
+/data/storage/

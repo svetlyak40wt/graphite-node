@@ -2,7 +2,7 @@ import os
 import os.path
 
 ROOT_DIR = os.path.normpath(
-    os.path.join(os.path.dirname(__file__), '..', '..', 'data'))
+    os.path.join(os.path.dirname(__file__), '..', 'data'))
 
 os.environ['GRAPHITE_CONF_DIR'] = os.path.join(ROOT_DIR, 'conf')
 os.environ['GRAPHITE_STORAGE_DIR'] = os.path.join(ROOT_DIR, 'storage')
