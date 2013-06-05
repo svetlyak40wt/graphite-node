@@ -1,4 +1,4 @@
 #!/bin/bash
 
 export GRAPHITE_ROOT=$(dirname $0)/data
-carbon-cache.py --config $GRAPHITE_ROOT/conf/carbon.conf $@
+env/bin/carbon-cache.py --config $GRAPHITE_ROOT/conf/carbon.conf $@
