@@ -45,8 +45,9 @@ cd ../..
 pip install -e .
 
 mkdir -p data/conf
-cp src/carbon/conf/carbon.conf.example data/conf/carbon.conf
-cp src/carbon/conf/storage-schemas.conf.example data/conf/storage-schemas.conf
+cp --backup=numbered src/carbon/conf/carbon.conf.example data/conf/carbon.conf
+cp --backup=numbered src/carbon/conf/storage-schemas.conf.example data/conf/storage-schemas.conf
+cp --backup=numbered src/carbon/conf/storage-aggregation.conf.example data/conf/storage-aggregation.conf
 
 ./carbon-cache start
 
